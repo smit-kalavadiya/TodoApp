@@ -5,14 +5,19 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const jwt = require("jsonwebtoken");
 
 const app = express();
+
+const PORT = process.env.GATEWAY_PORT || 3000;
+const AUTH_SERVICE_URL = process.env.AUTH_SERVICE_URL;
+const TODO_SERVICE_URL = process.env.TODO_SERVICE_URL;
+const JWT_SECRET = process.env.JWT_SECRET;
+const ORIGIN_URL = process.env.ORIGIN_URL;
+
 app.use(cors({
-    origin: "http://localhost:5173", // your React frontend URL
+    origin: ORIGIN_URL, // your React frontend URL
     credentials: true, // if you want to send cookies (optional)
   }));
 
-const AUTH_SERVICE_URL = "http://localhost:5000/auth";
-const TODO_SERVICE_URL = "http://localhost:5001/todos";
-const JWT_SECRET = process.env.JWT_SECRET;
+
 
 // Middleware to verify JWT
 const auth = (req, res, next) => {
@@ -75,5 +80,4 @@ app.get("/", (req, res) => {
   res.send("Welcome to the API Gateway");
 });
 
-const PORT = 4001;
 app.listen(PORT, () => console.log(`API Gateway running on port ${PORT}`));

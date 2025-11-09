@@ -8,7 +8,7 @@ import {
   editTodo,
   deleteTodo,
 } from "../Services/Todo-Services";
-import { validateToken } from "../utils/auth";
+import { validateToken } from "../Utils/Auth";
 
 Modal.setAppElement("#root");
 

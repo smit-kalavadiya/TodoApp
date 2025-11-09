@@ -1,0 +1,38 @@
+version: "1.0"
+
+services:
+  userauth:
+    build: ./Services/auth-services
+    container_name: userauth_service
+    networks:
+      - appnet
+
+  todo:
+    build: ./Services/todo-services
+    container_name: todo_service
+    networks:
+      - appnet
+
+  gateway:
+    build: ./Services/Gateway
+    container_name: gateway_service
+    ports:
+      - "4001:3000"
+    depends_on:
+      - userauth
+      - todo
+    networks:
+      - appnet
+
+  frontend:
+    build: ./Frontend
+    container_name: frontend_app
+    ports:
+      - "5172:80"
+    depends_on:
+      - gateway
+    networks:
+      - appnet
+
+networks:
+  appnet:
