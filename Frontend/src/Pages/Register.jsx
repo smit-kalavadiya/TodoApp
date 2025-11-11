@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
-const BASE_AUTH_URL = "http://localhost:4001/auth";
+const BASE_AUTH_URL = import.meta.env.VITE_BASE_AUTH_URL;
 
 export default function Register() {
   const [name, setName] = useState("");
