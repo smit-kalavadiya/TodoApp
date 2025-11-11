@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
 
 const BASE_AUTH_URL = import.meta.env.VITE_BASE_AUTH_URL;
@@ -21,11 +22,10 @@ export default function Register() {
         email,
         password,
       });
-      alert("Registration successful! Please login.");
+      toast.success("Registration successful! Please login.");
       navigate("/login");
     } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.error || "Registration failed.");
+      toast.error("Registration failed please try again.");
     } finally {
       setLoading(false);
     }

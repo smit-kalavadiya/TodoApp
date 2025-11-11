@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
 
 const BASE_AUTH_URL = import.meta.env.VITE_BASE_AUTH_URL;
@@ -26,11 +27,10 @@ export default function Login() {
       // Save token and user in localStorage
       localStorage.setItem("token", token);
 
-      alert("Login successful!");
+      toast.success("Login successful!");
       navigate("/");
     } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.error || "Invalid email or password");
+      toast.error("Invalid email or password");
     } finally {
       setLoading(false);
     }
