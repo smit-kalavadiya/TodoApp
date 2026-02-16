@@ -43,42 +43,6 @@
 
 ---
 
-## 📁 Folder Structure
-root/
-├── Services/
-│   ├── auth-services/
-│   │   ├── Dockerfile
-│   │   ├── index.js
-│   │   ├── package.json
-│   │   └── .env
-│   ├── todo-services/
-│   │   ├── Dockerfile
-│   │   ├── index.js
-│   │   ├── package.json
-│   │   └── .env
-│   └── Gateway/
-│       ├── Dockerfile
-│       ├── index.js
-│       ├── package.json
-│       └── .env
-├── Frontend/
-│   ├── Dockerfile
-│   ├── package.json
-│   └── src/
-│       ├── main.jsx
-│       └── components/
-│           ├── TodoList.jsx
-│           └── TodoItem.jsx
-├── terraform/
-│   ├── main.tf
-│   ├── variables.tf
-│   ├── outputs.tf
-│   ├── backend.tf
-│   └── ecs.tf
-├── docker-compose.yml
-└── README.md
----
-
 ## 🐳 Local Development
 
 ### Start containers:
