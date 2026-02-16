@@ -1,273 +1,162 @@
-# 🚀 Todo App – Full Stack Microservices + Terraform (AWS ECS)
+# Todo App – Full Stack Microservices 🚀
 
-This project is a **Dockerized full-stack Todo application** built using a **microservices architecture**, and deployable to **AWS using Terraform + ECS + ALB**.
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)](https://www.docker.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-16.x-green?logo=node.js)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-18.x-blue?logo=react)](https://reactjs.org/)
+[![Terraform](https://img.shields.io/badge/Terraform-1.x-blue?logo=terraform)](https://www.terraform.io/)
+[![License](https://img.shields.io/badge/License-MIT-lightgrey)](LICENSE)
 
----
-
-# 🏗 Architecture Overview
-
-## 🔹 Backend Microservices (Node.js + Express)
-
-- **Auth Service** – User registration & login (JWT)
-- **Todo Service** – CRUD operations for todos
-- **API Gateway** – Routes requests using http-proxy-middleware
-
-## 🔹 Frontend
-
-- React (Vite)
-- Communicates only with API Gateway
-
-## 🔹 Containerization
-
-- Docker for each service
-- Docker Compose for local development
-
-## 🔹 Infrastructure (Production)
-
-Provisioned using:
-
-- AWS ECS (Fargate)
-- Application Load Balancer (ALB)
-- Amazon ECR
-- Terraform (Infrastructure as Code)
+> A Dockerized full-stack Todo application with microservices architecture, JWT authentication, React frontend, and optional Terraform-based AWS ECS deployment.
 
 ---
 
-# ✅ Features
+## 🏗 Architecture
 
-- JWT-based Authentication
-- Create / Update / Delete Todos
+- **Backend Microservices** (Node.js + Express)
+  - Auth Service – JWT-based authentication
+  - Todo Service – CRUD operations
+  - API Gateway – Routes requests & handles auth
+
+- **Frontend**
+  - React (Vite)
+  - Communicates only via API Gateway
+
+- **Containerization**
+  - Docker for each service
+  - Docker Compose for local development
+
+- **Cloud Infrastructure (Optional)**
+  - Terraform for AWS ECS (Fargate)
+  - ALB, VPC, ECR, S3 backend, DynamoDB
+
+---
+
+## ✅ Features
+
+- User authentication (JWT)
+- CRUD for Todos
 - API Gateway routing
 - React frontend
 - Environment-based configuration
-- Fully containerized microservice architecture
-- Infrastructure as Code (Terraform)
-- ECS Fargate deployment ready
+- Microservices & Docker containerization
+- Terraform-based cloud deployment (AWS ECS)
 
 ---
 
-# 📁 Folder Structure
-
+## 📁 Folder Structure
 root/
 ├── Services/
 │ ├── auth-services/
-│ │ ├── Dockerfile
-│ │ ├── index.js
-│ │ ├── package.json
-│ │ └── .env
 │ ├── todo-services/
-│ │ ├── Dockerfile
-│ │ ├── index.js
-│ │ ├── package.json
-│ │ └── .env
 │ └── Gateway/
-│ ├── Dockerfile
-│ ├── index.js
-│ ├── package.json
-│ └── .env
-│
 ├── Frontend/
-│ ├── Dockerfile
-│ ├── src/
-│ └── package.json
-│
 ├── terraform/
-│ ├── main.tf
-│ ├── variables.tf
-│ ├── outputs.tf
-│ ├── backend.tf
-│ └── ecs.tf
-│
 ├── docker-compose.yml
 └── README.md
 
----
-
-# ✅ Prerequisites
-
-Make sure you have installed:
-
-1. Node.js (optional for local development)
-2. Docker Desktop
-3. Git
-4. Terraform
-5. AWS CLI (configured using `aws configure`)
 
 ---
 
-# 🐳 Local Development (Docker Compose)
+## 🐳 Local Development
 
-## 1️⃣ Build and Start Containers
+### Start containers:
 
 ```bash
 docker-compose up --build
 
-2️⃣ Stop Services
+
+* Start containers:
 docker-compose down
 
-3️⃣ View Running Containers
-docker ps
+🌍 Access URLs
 
-🌍 Local URLs
+Frontend: http://localhost:5172
 
-Frontend:
+Gateway: http://localhost:4001
 
-http://localhost:5172
-
-
-API Gateway:
-
-http://localhost:4001
-
-
-Backend services are internal and communicate via Docker network.
+Backend services communicate internally via Docker network.
 
 🔀 API Routes
-🔓 Auth Routes (Public)
+Auth Routes (Public)
 POST /auth/register
 POST /auth/login
 
-🔐 Todo Routes (JWT Protected)
+Todo Routes (JWT Protected)
 GET /todos
 POST /todos
 PUT /todos/:id
 DELETE /todos/:id
 
-⚙ Environment Configuration
+⚙ Development Tips
 
-Each service uses .env file.
+Use .env for local configs
 
-Example:
+Use container names (NOT localhost) inside Docker
 
-PORT=3001
-JWT_SECRET=your-secret-key
-DB_URL=your-db-url
+Rebuild after dependency changes:
+
+docker-compose up --build
 
 
-⚠ Never commit .env files. Use .env.example instead.
+View logs:
+
+docker logs gateway_service
 
 🏗 Terraform – AWS Deployment
 
-Terraform automates AWS infrastructure provisioning.
+Terraform provisions:
 
-🔐 Remote State Configuration (S3)
+ECS Cluster (Fargate), Task Definitions & Services
 
-Example:
+Application Load Balancer
 
-terraform {
-  backend "s3" {
-    bucket         = "your-terraform-state-bucket"
-    key            = "todo-app/terraform.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "terraform-locks"
-    encrypt        = true
-  }
-}
+Public & Private Subnets, NAT & IGW
 
-🚀 Deploy to AWS
-1️⃣ Initialize
+Amazon ECR for Docker images
+
+S3 backend for Terraform state
+
+DynamoDB for state locking
+
+Deploy Steps:
 cd terraform
 terraform init
-
-2️⃣ Validate
 terraform validate
-
-3️⃣ Plan
 terraform plan
-
-4️⃣ Apply
 terraform apply
 
 
-After deployment, Terraform outputs the ALB DNS name:
-
-http://app-alb-xxxxxxxx.us-east-1.elb.amazonaws.com
-
-
-Access your app using that URL.
-
-🐳 Docker → ECR → ECS Flow
-
-Build Docker images
-
-Push images to Amazon ECR
-
-ECS pulls images from ECR
-
-ALB routes traffic to Gateway service
-
-Gateway routes internally to services
-
-🧠 Production Architecture Flow
-
-User → ALB → Gateway (ECS) → Auth / Todo Services (ECS Private Subnet)
-
-Frontend → ALB → Gateway → Microservices
+Terraform outputs ALB DNS URL to access your deployed app.
 
 ❗ Common Issues
-❌ Services cannot communicate
 
-Inside Docker use container names:
+Connection refused: Use container names (http://userauth:3001, http://todo:3002) inside Docker.
 
-http://userauth:3001
-http://todo:3002
+Ports in use:
 
-
-Do NOT use localhost.
-
-❌ GitHub Large File Error (100MB Limit)
-
-Never commit:
-
-.terraform/
-terraform.tfstate
-node_modules/
-.env
-
-
-Ensure proper .gitignore.
-
-❌ Port Already in Use
 npx kill-port 5172
 
-🔐 Security Best Practices
 
-Use AWS Secrets Manager in production
+GitHub 100MB limit: Do not commit .terraform/, terraform.tfstate, node_modules/, or .env.
 
-Store Terraform state in S3
-
-Enable DynamoDB locking
-
-Use IAM roles for ECS
-
-Never hardcode credentials
-
-☁ Deployment Options
+✅ Deployment Options
 
 AWS ECS (Recommended)
 
 Docker Hub + VPS
 
-Render
+Render / Railway / Docker Swarm
 
-Railway
+🎯 Final Thoughts
 
-Docker Swarm
+This project demonstrates:
 
-📈 What This Project Demonstrates
+Microservices & Docker containerization
 
-Microservices Architecture
+API Gateway routing
 
-Docker Containerization
+JWT authentication
 
-API Gateway Pattern
+Terraform-based Infrastructure as Code
 
-JWT Authentication
-
-Infrastructure as Code (Terraform)
-
-AWS ECS Fargate Deployment
-
-Load Balancer Routing
-
-Cloud Networking (VPC, Subnets, NAT, IGW)
+AWS ECS Fargate production deployment
