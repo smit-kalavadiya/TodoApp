@@ -57,3 +57,34 @@ docker-data/
 *.swo
 *.idea/
 *.vscode/
+
+
+# Terraform state files
+/Terraform/*.tfstate
+/Terraform/*.tfstate.*
+/Terraform/.terraform/
+
+# Terraform plan files
+/Terraform/*.tfplan
+
+# Terraform variable files (may contain secrets)
+/Terraform/*.tfvars
+/Terraform/*.tfvars.json
+
+# Override files
+/Terraform/override.tf
+/Terraform/override.tf.json
+/Terraform/*_override.tf
+/Terraform/*_override.tf.json
+
+# Terraform directory
+/Terraform.terraform/
+
+# Terraform lock file (OPTIONAL)
+# Keep this if you want version locking (recommended for teams)
+# .terraform.lock.hcl
+
+# CLI configuration files
+/Terraform/.terraformrc
+/Terraform/terraform.rc
+

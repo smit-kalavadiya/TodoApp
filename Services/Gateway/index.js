@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require('cors');
+const cors = require("cors");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const jwt = require("jsonwebtoken");
 
@@ -12,12 +12,12 @@ const TODO_SERVICE_URL = process.env.TODO_SERVICE_URL;
 const JWT_SECRET = process.env.JWT_SECRET;
 const ORIGIN_URL = process.env.ORIGIN_URL;
 
-app.use(cors({
+app.use(
+  cors({
     origin: ORIGIN_URL, // your React frontend URL
     credentials: true, // if you want to send cookies (optional)
-  }));
-
-
+  }),
+);
 
 // Middleware to verify JWT
 const auth = (req, res, next) => {
@@ -35,17 +35,17 @@ const auth = (req, res, next) => {
 
 // AUTH ROUTES (no JWT needed)
 app.use(
-  "/auth",
+  "/api/auth",
   createProxyMiddleware({
     target: AUTH_SERVICE_URL,
     changeOrigin: true,
     logLevel: "debug",
-  })
+  }),
 );
 
 // TODOS ROUTES (JWT required)
 app.use(
-  "/todos",
+  "/api/todos",
   auth,
   createProxyMiddleware({
     target: TODO_SERVICE_URL,
@@ -73,10 +73,10 @@ app.use(
         }
       }
     },
-  })
+  }),
 );
 
-app.get("/", (req, res) => {
+app.get("/api/health", (req, res) => {
   res.send("Welcome to the API Gateway");
 });
 

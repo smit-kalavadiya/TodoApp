@@ -1,0 +1,53 @@
+# Node modules (installed inside container)
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Logs
+logs
+*.log
+
+# Runtime files
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files (IMPORTANT for security)
+.env
+.env.*
+!.env.example
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+docker-compose.*.yml
+
+# Tests
+test
+tests
+__tests__
+coverage
+
+# Build output
+dist
+build
+.tmp
+.cache
+
+# IDE/editor files
+.vscode
+.idea
+*.swp
+
+# Optional: local configs
+*.local
